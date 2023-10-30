@@ -89,9 +89,11 @@ namespace FirstTask
 				return;
 			}
 
-			var markerInfoForm = new MarkerInfoForm(marker);
-			markerInfoForm.DeletePointClicked += MarkerInfoForm_DeletePointClicked;
-			markerInfoForm.ShowDialog();
+			using (var markerInfoForm = new MarkerInfoForm(marker))
+			{
+				markerInfoForm.DeletePointClicked += MarkerInfoForm_DeletePointClicked;
+				markerInfoForm.ShowDialog();
+			}
 		}
 
 		private async void MarkerInfoForm_DeletePointClicked(GMapMarker marker)
