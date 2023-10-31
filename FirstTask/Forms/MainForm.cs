@@ -1,5 +1,5 @@
 ﻿using DataAccessLayer;
-using DataAccessLayer.Models;
+using DataAccessLayer.Domain;
 using FirstTask.Forms;
 using GMap.NET.WindowsForms;
 using System;
@@ -12,7 +12,7 @@ namespace FirstTask
 	{
 		private GMapMarker _selectedMarkerForDragAndDrop;
 		private bool _isDragging = false;
-		private readonly IRepository<CoordinateModel> _coordinatesRepository = new MsSqlCoordinatesRepository();
+		private readonly IRepository<Coordinate> _coordinatesRepository = new MsSqlCoordinatesRepository();
 
 		public MainForm()
 		{
@@ -73,7 +73,7 @@ namespace FirstTask
 			var latlng = gMapControl.FromLocalToLatLng(e.X, e.Y);
 			_selectedMarkerForDragAndDrop.Position = latlng;
 
-			var coordModel = new CoordinateModel(_selectedMarkerForDragAndDrop.ToolTipText, latlng.Lat, latlng.Lng);
+			var coordModel = new Coordinate(_selectedMarkerForDragAndDrop.ToolTipText, latlng.Lat, latlng.Lng);
 			await _coordinatesRepository.UpdateAsync(coordModel);
 
 			_selectedMarkerForDragAndDrop = null;
@@ -98,7 +98,7 @@ namespace FirstTask
 
 		private async void MarkerInfoForm_DeletePointClicked(GMapMarker marker)
 		{
-			var coordModel = new CoordinateModel(marker.ToolTipText, marker.Position.Lat, marker.Position.Lng);
+			var coordModel = new Coordinate(marker.ToolTipText, marker.Position.Lat, marker.Position.Lng);
 			await _coordinatesRepository.DeleteAsync(coordModel);
 			gMapControl.Overlays.FirstOrDefault(ov => ov.Id.Equals(marker.Overlay.Id))?.Markers.Remove(marker);
 			gMapControl.Update();
@@ -142,7 +142,7 @@ namespace FirstTask
 				return;
 			}
 
-			var coord = new CoordinateModel(pointNameTextBox.Text, latitudeDouble, longitudeDouble);
+			var coord = new Coordinate(pointNameTextBox.Text, latitudeDouble, longitudeDouble);
 			var inputMarker = OverlayMarkers.GetOneGoogleMarker(coord);
 
 			if (gMapControl.Overlays.Count == 0)

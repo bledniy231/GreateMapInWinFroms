@@ -1,8 +1,8 @@
-﻿namespace DataAccessLayer.Models
+﻿namespace DataAccessLayer.Domain
 {
-	public class CoordinateModel
+	public class Coordinate
 	{
-		public CoordinateModel(string pointName, double latitude, double longitude)
+		public Coordinate(string pointName, double latitude, double longitude)
 		{
 			PointName = pointName;
 			Latitude = latitude;

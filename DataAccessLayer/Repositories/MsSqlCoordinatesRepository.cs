@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.Domain;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-	public class MsSqlCoordinatesRepository : IRepository<CoordinateModel>
+	public class MsSqlCoordinatesRepository : IRepository<Coordinate>
 	{
 
-		public async Task<int> CreateAsync(CoordinateModel item)
+		public async Task<int> CreateAsync(Coordinate item)
 		{
 			int responseId = -1;
 			using (var sqlConnection = new SqlConnection(Configuration.GetConnectionString()))
@@ -37,7 +37,7 @@ namespace DataAccessLayer
 			return responseId;
 		}
 
-		public async Task UpdateAsync(CoordinateModel item)
+		public async Task UpdateAsync(Coordinate item)
 		{
 			using (var sqlConnection = new SqlConnection(Configuration.GetConnectionString()))
 			{
@@ -50,7 +50,7 @@ namespace DataAccessLayer
 			}
 		}
 
-		public async Task DeleteAsync(CoordinateModel item)
+		public async Task DeleteAsync(Coordinate item)
 		{
 			using (var sqlConnection = new SqlConnection(Configuration.GetConnectionString()))
 			{
@@ -63,9 +63,9 @@ namespace DataAccessLayer
 			}
 		}
 
-		public async Task<IEnumerable<CoordinateModel>> LoadAllAsync()
+		public async Task<IEnumerable<Coordinate>> LoadAllAsync()
 		{
-			var coordinates = new List<CoordinateModel>();
+			var coordinates = new List<Coordinate>();
 
 			using (var sqlConnection = new SqlConnection(Configuration.GetConnectionString()))
 			{
@@ -82,7 +82,7 @@ namespace DataAccessLayer
 							double latitude = double.Parse(reader["Latitude"].ToString());
 							double longitude = double.Parse(reader["Longitude"].ToString());
 
-							coordinates.Add(new CoordinateModel(pointName, latitude, longitude));
+							coordinates.Add(new Coordinate(pointName, latitude, longitude));
 						}
 					}
 				}
@@ -142,7 +142,7 @@ namespace DataAccessLayer
 			}
 		}
 
-		private SqlParameter[] CreateFullParamsForCoordinate(CoordinateModel item)
+		private SqlParameter[] CreateFullParamsForCoordinate(Coordinate item)
 			=> new SqlParameter[]
 			{
 				new SqlParameter("@pointName", item.PointName),

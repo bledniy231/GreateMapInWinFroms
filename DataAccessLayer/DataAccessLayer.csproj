@@ -47,7 +47,7 @@
     <Compile Include="ConfigFiles\AppSettings.cs" />
     <Compile Include="ConfigFiles\Configuration.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Models\CoordinateModel.cs" />
+    <Compile Include="Domain\Coordinate.cs" />
     <Compile Include="Repositories\MsSqlCoordinatesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,7 +55,7 @@
     <None Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-	<None Include="MsSqlScripts\*" CopyToOutputDirectory="Always" />
+    <None Include="MsSqlScripts\*" CopyToOutputDirectory="Always" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
